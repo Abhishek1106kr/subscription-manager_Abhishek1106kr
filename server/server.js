@@ -32,7 +32,6 @@ const { createSchedulerRoutes, createProtectedSchedulerRoutes } = require('./rou
 const userPreferencesRoutes = require('./routes/userPreferences');
 const templatesRoutes = require('./routes/templates');
 const createAuthRoutes = require('./routes/auth');
-const createChatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 const port = process.env.PORT || 3001; // Use PORT from environment or default to 3001
@@ -87,8 +86,6 @@ const protectedApiRouter = express.Router();
 // Auth routes (no login required)
 app.use('/api/auth', createAuthRoutes(db));
 
-// Public Chatbot Route (No login required to talk to bot)
-app.use('/api/chat', createChatRoutes());
 
 // Apply session auth to all API routes
 apiRouter.use(requireLogin);

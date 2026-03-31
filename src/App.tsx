@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { Navigate } from 'react-router-dom'
 import ClickSpark from './components/ClickSpark'
-import Chatbot from './components/Chatbot'
+import CollegeBotChat from './components/CollegeBotChat'
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import("./pages/HomePage"))
@@ -56,7 +56,7 @@ function App() {
           </Suspense>
         </MainLayout>
         <Toaster />
-        <Chatbot />
+        <CollegeBotChat />
       </ClickSpark>
     </ThemeProvider>
   )
