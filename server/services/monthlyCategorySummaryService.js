@@ -64,8 +64,7 @@ class MonthlyCategorySummaryService {
             logger.info(`Updating monthly category summary for ${year}-${month.toString().padStart(2, '0')}`);
 
             // Get all successful payment records for this month, including classification information
-            const startDate = `${year}-${month.toString().padStart(2, '0')}-01`;
-            const endDate = new Date(year, month, 0).toISOString().split('T')[0]; // end of month date
+            const targetMonth = `${year}-${month.toString().padStart(2, '0')}`;
 
             const paymentsStmt = this.db.prepare(`
                 SELECT 
@@ -78,12 +77,12 @@ class MonthlyCategorySummaryService {
                 FROM payment_history ph
                 JOIN subscriptions s ON ph.subscription_id = s.id
                 LEFT JOIN categories c ON s.category_id = c.id
-                WHERE ph.payment_date >= ? AND ph.payment_date <= ?
+                WHERE strftime('%Y-%m', ph.payment_date) = ?
                 AND ph.status = 'succeeded'
                 ORDER BY s.category_id
             `);
 
-            const payments = paymentsStmt.all(startDate, endDate);
+            const payments = paymentsStmt.all(targetMonth);
             
             if (payments.length === 0) {
                 logger.info(`No payments found for ${year}-${month.toString().padStart(2, '0')}`);
