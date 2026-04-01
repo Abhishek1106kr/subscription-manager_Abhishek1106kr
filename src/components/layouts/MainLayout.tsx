@@ -57,8 +57,8 @@ export function MainLayout({ children }: MainLayoutProps) {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-4 z-50 mx-4 sm:mx-8 md:mx-auto max-w-6xl rounded-full border border-white/10 dark:border-white/5 bg-white/20 dark:bg-black/20 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all">
+    <div className="flex flex-col min-h-screen bg-transparent relative z-10 w-full overflow-x-hidden">
+      <header className="sticky top-4 z-20 mx-4 sm:mx-8 md:mx-auto max-w-6xl rounded-full border border-white/10 dark:border-white/5 bg-white/20 dark:bg-black/20 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all">
         <div className="flex h-16 items-center justify-between px-6 sm:px-8">
           <div className="flex items-center gap-6 md:gap-10">
             <Link to="/dashboard" className="flex items-center space-x-2">
@@ -109,7 +109,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         </div>
       </header>
 
-      <main className="container py-4 sm:py-6 px-4 sm:px-6 flex-grow pb-20 md:pb-6">
+      <main className="container py-4 sm:py-6 px-4 sm:px-6 flex-grow pb-20 md:pb-6 relative z-10">
         {children}
       </main>
 
