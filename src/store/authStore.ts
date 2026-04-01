@@ -10,6 +10,7 @@ interface AuthState {
   initialized: boolean
   fetchMe: () => Promise<void>
   login: (username: string, password: string) => Promise<boolean>
+  register: (name: string, email: string, password: string) => Promise<boolean>
   logout: () => Promise<void>
   changePassword: (currentPassword: string, newPassword: string, confirmPassword?: string) => Promise<{ ok: boolean; message?: string; error?: string; code?: string }>
 }
@@ -39,6 +40,18 @@ export const useAuthStore = create<AuthState>()(
           return true
         } catch (e) {
           set({ error: e instanceof Error ? e.message : 'Login failed', isLoading: false, initialized: true })
+          return false
+        }
+      },
+      register: async (name, email, password) => {
+        set({ isLoading: true, error: null })
+        try {
+          await authApi.register({ name, email, password })
+          const data = await authApi.me()
+          set({ user: data.user, isLoading: false, initialized: true })
+          return true
+        } catch (e) {
+          set({ error: e instanceof Error ? e.message : 'Registration failed', isLoading: false, initialized: true })
           return false
         }
       },
