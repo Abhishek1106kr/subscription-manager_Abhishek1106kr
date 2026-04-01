@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const icons = [
   "https://img.icons8.com/color/96/000000/netflix.png",
@@ -226,46 +227,81 @@ export default function BackgroundAnimation() {
     };
   }, []);
 
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+  const isSettings = location.pathname.startsWith('/settings');
+  const isUnblurredPage = location.pathname === '/' || location.pathname === '/login' || isSettings || isDashboard;
+
   return (
     <>
       <div 
         ref={containerRef} 
-        className="fixed top-0 left-0 w-[100vw] h-[100vh] overflow-hidden pointer-events-none z-0 bg-[#0a0a0f] pointer-events-none"
+        className="fixed top-0 left-0 w-[100vw] h-[100vh] overflow-hidden pointer-events-none z-0 dark:bg-[#0a0a0f] bg-[#f0f0f5] pointer-events-none"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(60,20,120,0.1)_0%,rgba(0,0,0,0.6)_100%)] z-0" />
+        <div className="absolute inset-0 dark:bg-[radial-gradient(circle_at_center,rgba(60,20,120,0.1)_0%,rgba(0,0,0,0.6)_100%)] bg-[radial-gradient(circle_at_center,rgba(60,20,120,0.05)_0%,rgba(255,255,255,0.7)_100%)] z-0" />
         
-        {bubbles.map((bubble, i) => (
-          <div
-             key={bubble.id}
-             ref={el => bubbleRefs.current[i] = el}
-             className={`absolute top-0 left-0 rounded-full flex items-center justify-center p-[2px] transition-opacity duration-300 pointer-events-none will-change-transform ${
-                 bubble.isHero 
-                  ? 'bg-red-500/10 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.3)]' 
-                  : 'bg-white/5 border border-purple-400/20 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
-             }`}
-             style={{
-               width: bubble.size,
-               height: bubble.size,
-               opacity: 0.5, // Reduced intensity globally 
-               zIndex: 0
-             }}
+        {(() => {
+          let heroesShown = 0;
+          let appsShown = 0;
+
+          return bubbles.map((bubble, i) => {
+            if (isDashboard && i >= 20) return null;
+            
+            let forceBlurFilter = '';
+            let forceOpacity = isUnblurredPage ? 0.95 : 0.65;
+
+            if (isSettings) {
+               let isTarget = false;
+               if (bubble.isHero && heroesShown < 5) {
+                  isTarget = true;
+                  heroesShown++;
+               } else if (!bubble.isHero && appsShown < 5) {
+                  isTarget = true;
+                  appsShown++;
+               }
+               if (!isTarget) {
+                  // the other 40 bubbles get severely blurred out and dimmed
+                  forceBlurFilter = 'blur-[12px] grayscale';
+                  forceOpacity = 0.15;
+               }
+            }
+            
+            return (
+            <div
+               key={bubble.id}
+               ref={el => bubbleRefs.current[i] = el}
+               className={`absolute top-0 left-0 rounded-full flex items-center justify-center p-[2px] transition-opacity duration-300 pointer-events-none will-change-transform ${forceBlurFilter} ${
+                   bubble.isHero 
+                    ? 'bg-red-500/10 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.3)]' 
+                    : 'bg-white/5 border border-purple-400/20 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
+               }`}
+               style={{
+                 width: bubble.size,
+                 height: bubble.size,
+                 opacity: forceOpacity,
+                 zIndex: 0
+               }}
           >
               <div className={`w-full h-full rounded-full overflow-hidden flex justify-center items-center p-1.5 ${
-                  bubble.isHero ? 'bg-black/20' : 'bg-black/30'
+                  bubble.isHero ? 'dark:bg-black/30 bg-white/70' : 'dark:bg-black/40 bg-white/80' 
               }`}>
                   <img 
                      src={bubble.icon} 
                      alt="Icon" 
-                     className={`w-[85%] h-[85%] blur-[0.5px] opacity-80 ${
+                     className={`w-[85%] h-[85%] opacity-100 ${!isUnblurredPage ? 'blur-[0.5px]' : ''} ${
                          bubble.isHero ? 'object-cover rounded-full' : 'object-contain'
                      }`} 
                   />
               </div>
-          </div>
-        ))}
+            </div>
+          );
+        });
+      })()}
       </div>
-      {/* Global Blur Overlay to softly submerge bubbles */}
-      <div className="fixed inset-0 backdrop-blur-[4px] z-[1] pointer-events-none" />
+      {/* Global Blur Overlay to softly submerge bubbles only on dashboard/settings pages */}
+      {!isUnblurredPage && (
+        <div className="fixed inset-0 backdrop-blur-[4px] z-[1] pointer-events-none" />
+      )}
     </>
   );
 }
