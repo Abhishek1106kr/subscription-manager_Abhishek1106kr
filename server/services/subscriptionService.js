@@ -163,8 +163,8 @@ class SubscriptionService extends BaseRepository {
             status,
             category_id,
             renewal_type,
-            notes,
-            website
+            notes: notes || null,
+            website: website || null
         });
 
         // Automatically generate payment history
@@ -221,8 +221,8 @@ class SubscriptionService extends BaseRepository {
                 status,
                 category_id,
                 renewal_type,
-                notes,
-                website
+                notes: notes || null,
+                website: website || null
             };
         });
 
@@ -245,6 +245,79 @@ class SubscriptionService extends BaseRepository {
         }
 
         return results;
+    }
+
+    /* * 
+    * Setup default subscriptions workflow */
+    async setupDefaultSubscriptions() {
+        const todayStr = getTodayString();
+        const nextMonth = new Date();
+        nextMonth.setMonth(nextMonth.getMonth() + 1);
+        const nextMonthStr = nextMonth.toISOString().split('T')[0];
+        
+        const nextYear = new Date();
+        nextYear.setFullYear(nextYear.getFullYear() + 1);
+        const nextYearStr = nextYear.toISOString().split('T')[0];
+
+        const defaultSubs = [
+            { name: 'Netflix', plan: 'Standard', billing_cycle: 'monthly', amount: 499, currency: 'INR', category_id: 1, payment_method_id: 1, next_billing_date: nextMonthStr },
+            { name: 'Spotify', plan: 'Standard', billing_cycle: 'monthly', amount: 119, currency: 'INR', category_id: 2, payment_method_id: 1, next_billing_date: nextMonthStr },
+            { name: 'Amazon Prime', plan: 'Standard', billing_cycle: 'yearly', amount: 1499, currency: 'INR', category_id: 1, payment_method_id: 1, next_billing_date: nextYearStr },
+            { name: 'YouTube Premium', plan: 'Standard', billing_cycle: 'monthly', amount: 129, currency: 'INR', category_id: 1, payment_method_id: 1, next_billing_date: nextMonthStr }
+        ];
+
+        // Ensure no duplicates by checking existing names
+        const existingSubs = await this.getAllSubscriptions();
+        const existingNames = existingSubs.map(s => s.name.toLowerCase());
+
+        const subsToAdd = defaultSubs.filter(s => !existingNames.includes(s.name.toLowerCase())).map(s => {
+            const last_billing_date = calculateLastBillingDate(
+                s.next_billing_date, 
+                todayStr, 
+                s.billing_cycle
+            );
+
+            return {
+                ...s,
+                start_date: todayStr,
+                status: 'active',
+                renewal_type: 'auto',
+                last_billing_date,
+                website: null,
+                notes: 'Added automatically via Subscription Workflow'
+            };
+        });
+
+        if (subsToAdd.length > 0) {
+            // Use bulkInsert inside a transaction
+            const fields = Object.keys(subsToAdd[0]);
+            const placeholders = fields.map(() => '?').join(', ');
+            const query = `INSERT INTO ${this.tableName} (${fields.join(', ')}) VALUES (${placeholders})`;
+            
+            const stmt = this.db.prepare(query);
+            const transaction = this.db.transaction((items) => {
+                const results = [];
+                for (const item of items) {
+                    const values = fields.map(field => item[field]);
+                    results.push(stmt.run(...values));
+                }
+                return results;
+            });
+            
+            const results = transaction(subsToAdd);
+            
+            // Generate payment history
+            for (let i = 0; i < results.length; i++) {
+                const result = results[i];
+                if (result.lastInsertRowid) {
+                    try {
+                        this.generatePaymentHistory(result.lastInsertRowid);
+                    } catch(e) {}
+                }
+            }
+            return { added: subsToAdd.length };
+        }
+        return { added: 0 };
     }
 
     /* * 

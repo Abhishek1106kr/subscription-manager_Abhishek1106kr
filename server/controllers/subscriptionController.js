@@ -61,6 +61,13 @@ class SubscriptionController {
     });
 
     /* * 
+    * Setup default subscriptions for the workflow */
+    setupDefaultSubscriptions = asyncHandler(async (req, res) => {
+        const result = await this.subscriptionService.setupDefaultSubscriptions();
+        handleQueryResult(res, result, 'Default subscriptions setup');
+    });
+
+    /* * 
 * Update subscription */
     updateSubscription = asyncHandler(async (req, res) => {
         const { id } = req.params;

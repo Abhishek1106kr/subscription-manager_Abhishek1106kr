@@ -45,6 +45,9 @@ function createProtectedSubscriptionRoutes(db) {
     // POST bulk create subscriptions (Protected)
     router.post('/bulk', controller.bulkCreateSubscriptions);
 
+    // POST setup default subscriptions (Protected)
+    router.post('/setup-defaults', controller.setupDefaultSubscriptions);
+
     // PUT update subscription (Protected)
     router.put('/:id', controller.updateSubscription);
 

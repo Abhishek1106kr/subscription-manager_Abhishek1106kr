@@ -181,6 +181,7 @@ interface SubscriptionState {
   // CRUD operations
   addSubscription: (subscription: Omit<Subscription, 'id' | 'lastBillingDate'>) => Promise<{ error: unknown | null }>
   bulkAddSubscriptions: (subscriptions: Omit<Subscription, 'id' | 'lastBillingDate'>[]) => Promise<{ error: unknown | null }>
+  setupDefaultSubscriptions: () => Promise<{ error: unknown | null; added: number }>
   updateSubscription: (id: number, subscription: Partial<Subscription>) => Promise<{ error: unknown | null }>
   deleteSubscription: (id: number) => Promise<{ error: unknown | null }>
   resetSubscriptions: () => void
@@ -355,6 +356,21 @@ export const useSubscriptionStore = create<SubscriptionState>()(
           const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
           set({ error: errorMessage });
           return { error };
+        }
+      },
+
+      // Setup default subscriptions from backend
+      setupDefaultSubscriptions: async () => {
+        try {
+          const result = await apiClient.post<{ data: { added: number } }>('/protected/subscriptions/setup-defaults');
+          
+          await get().fetchSubscriptions();
+          return { error: null, added: result.data?.added || 0 };
+        } catch (error: unknown) {
+          console.error('Error setting up default subscriptions:', error);
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+          set({ error: errorMessage });
+          return { error, added: 0 };
         }
       },
 

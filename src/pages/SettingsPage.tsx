@@ -76,7 +76,7 @@ export function SettingsPage() {
     fetchSettings,
   } = useSettingsStore()
 
-  const { subscriptions, resetSubscriptions, addSubscription } = useSubscriptionStore()
+  const { subscriptions, resetSubscriptions, addSubscription, bulkAddSubscriptions, setupDefaultSubscriptions } = useSubscriptionStore()
 
   const initializeSettings = useCallback(() => {
     fetchSettings()
@@ -180,6 +180,20 @@ export function SettingsPage() {
     await resetSettings()
     window.location.reload()
   }
+
+  // Handle default subscription setup
+  const handleSetupDefaultSubscriptions = async () => {
+    const result = await setupDefaultSubscriptions();
+    if (!result.error) {
+      if (result.added > 0) {
+         toast({ description: "Default subscriptions added successfully" });
+      } else {
+         toast({ description: "Default subscriptions already exist" });
+      }
+    } else {
+       toast({ description: "Failed to add default subscriptions", variant: "destructive" });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -307,6 +321,20 @@ export function SettingsPage() {
               <Button variant="outline" onClick={() => setIsImportModalOpen(true)}>
                 <Upload className="mr-2 h-4 w-4" />
                 {t('importData')}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-4 border-primary/20">
+            <CardHeader>
+              <CardTitle>Subscription Workflow</CardTitle>
+              <CardDescription>
+                Automatically set up default region-localized subscriptions.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={handleSetupDefaultSubscriptions} className="bg-primary text-primary-foreground">
+                Setup Default Subscriptions
               </Button>
             </CardContent>
           </Card>
