@@ -46,7 +46,7 @@ uniform float uFade;
 #define EPS 1e-6
 #define EDGE_SOFT (DT_LOCAL*4.0)
 #define DT_LOCAL 0.0038
-#define TAP_RADIUS 6
+#define TAP_RADIUS 3
 #define R_H 150.0
 #define R_V 150.0
 #define FLARE_HEIGHT 16.0
@@ -76,7 +76,7 @@ uniform float uFade;
 #define FOG_CONTRAST 1.2
 #define FOG_SPEED_U 0.1
 #define FOG_SPEED_V -0.1
-#define FOG_OCTAVES 5
+#define FOG_OCTAVES 2
 #define FOG_BOTTOM_BIAS 0.8
 #define FOG_TILT_TO_MOUSE 0.05
 #define FOG_TILT_DEADZONE 0.01
@@ -301,7 +301,7 @@ export const LaserFlow = ({
     });
     rendererRef.current = renderer;
 
-    baseDprRef.current = Math.min(dpr ?? (window.devicePixelRatio || 1), 2);
+    baseDprRef.current = Math.min(dpr ?? (window.devicePixelRatio || 1), 1.0);
     currentDprRef.current = baseDprRef.current;
 
     renderer.setPixelRatio(currentDprRef.current);
@@ -443,7 +443,7 @@ export const LaserFlow = ({
     let raf = 0;
 
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-    const dprFloor = 0.6;
+    const dprFloor = 0.25;
     const lowerThresh = 50;
     const upperThresh = 58;
     let lastDprChangeRef = 0;

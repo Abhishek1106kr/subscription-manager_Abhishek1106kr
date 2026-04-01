@@ -138,8 +138,8 @@
 @layer components {
   .antigravity-card {
     background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 20px;
     position: relative;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);

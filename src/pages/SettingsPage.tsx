@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { useSearchParams } from "react-router-dom"
-import { Download, Upload } from "lucide-react"
+import { Download, Upload, Shield, Key, Lock, CheckCircle2, AlertCircle, Database, LayoutList, Trash2 } from "lucide-react"
 
 import { Subscription } from "@/store/subscriptionStore"
 
@@ -240,118 +240,210 @@ export function SettingsPage() {
           <NotificationSettings userId={1} />
         </TabsContent>
 
-        <TabsContent value="security" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t('changePassword')}</CardTitle>
-              <CardDescription>{t('changePasswordDesc')}</CardDescription>
+        <TabsContent value="security" className="space-y-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none rounded-xl" />
+          <Card className="border-border/50 bg-background/60 backdrop-blur-xl shadow-lg relative overflow-hidden group transition-all duration-500 hover:shadow-primary/5 hover:border-primary/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
+            <CardHeader className="space-y-1 relative z-10">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-primary/10 ring-1 ring-primary/20">
+                  <Shield className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <CardTitle className="tracking-tight text-xl">{t('changePassword')}</CardTitle>
+                  <CardDescription className="text-muted-foreground mt-1.5">{t('changePasswordDesc')}</CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <form onSubmit={handleChangePassword}>
-              <CardContent className="space-y-4">
+            
+            <form onSubmit={handleChangePassword} className="relative z-10">
+              <CardContent className="space-y-6 pt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="current-password">{t('currentPassword')}</Label>
-                  <Input
-                    id="current-password"
-                    type="password"
-                    value={currentPassword}
-                    onChange={(event) => setCurrentPassword(event.target.value)}
-                    autoComplete="current-password"
-                    required
-                  />
+                  <Label htmlFor="current-password" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                    <Lock className="w-4 h-4 text-muted-foreground" />
+                    {t('currentPassword')}
+                  </Label>
+                  <div className="relative group/input">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover/input:opacity-100 transition-opacity rounded-md -z-10 blur-sm" />
+                    <Input
+                      id="current-password"
+                      type="password"
+                      value={currentPassword}
+                      onChange={(event) => setCurrentPassword(event.target.value)}
+                      autoComplete="current-password"
+                      className="bg-background/50 border-white/10 focus-visible:ring-primary/50 transition-all duration-300 placeholder:text-muted-foreground/50 h-11"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="new-password">{t('newPassword')}</Label>
-                  <Input
-                    id="new-password"
-                    type="password"
-                    value={newPassword}
-                    onChange={(event) => setNewPassword(event.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
-                  <p className="text-xs text-muted-foreground">{t('passwordRules')}</p>
+                
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="new-password" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                      <Key className="w-4 h-4 text-muted-foreground" />
+                      {t('newPassword')}
+                    </Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover/input:opacity-100 transition-opacity rounded-md -z-10 blur-sm" />
+                      <Input
+                        id="new-password"
+                        type="password"
+                        value={newPassword}
+                        onChange={(event) => setNewPassword(event.target.value)}
+                        autoComplete="new-password"
+                        className="bg-background/50 border-white/10 focus-visible:ring-primary/50 transition-all duration-300 placeholder:text-muted-foreground/50 h-11"
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                      <CheckCircle2 className="w-4 h-4 text-muted-foreground" />
+                      {t('confirmNewPassword')}
+                    </Label>
+                    <div className="relative group/input">
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover/input:opacity-100 transition-opacity rounded-md -z-10 blur-sm" />
+                      <Input
+                        id="confirm-password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                        autoComplete="new-password"
+                        className="bg-background/50 border-white/10 focus-visible:ring-primary/50 transition-all duration-300 placeholder:text-muted-foreground/50 h-11"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password">{t('confirmNewPassword')}</Label>
-                  <Input
-                    id="confirm-password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
-                </div>
-                {passwordError && (
-                  <p className="text-sm text-destructive" role="alert">
-                    {passwordError}
+
+                <div className="rounded-lg bg-muted/30 p-4 border border-border/40 backdrop-blur-sm">
+                  <p className="text-sm text-muted-foreground flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <span>{t('passwordRules')}</span>
                   </p>
+                </div>
+
+                {passwordError && (
+                  <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 flex items-center gap-2 text-destructive animate-in fade-in slide-in-from-top-2 duration-300">
+                    <AlertCircle className="w-4 h-4" />
+                    <p className="text-sm font-medium" role="alert">{passwordError}</p>
+                  </div>
                 )}
                 {passwordSuccess && !passwordError && (
-                  <p className="text-sm text-emerald-600" role="status">
-                    {passwordSuccess}
-                  </p>
+                  <div className="p-3 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-2 text-emerald-500 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <p className="text-sm font-medium" role="status">{passwordSuccess}</p>
+                  </div>
                 )}
               </CardContent>
-              <CardFooter className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <Button type="submit" disabled={isSubmittingPassword || isAuthLoading}>
+              <CardFooter className="flex flex-col items-center gap-4 sm:flex-row sm:justify-end pt-2 pb-6 px-6 relative z-10 border-t border-border/10 mt-2">
+                <Button 
+                  type="submit" 
+                  disabled={isSubmittingPassword || isAuthLoading}
+                  className="w-full sm:w-auto min-w-[140px] shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 group active:scale-95"
+                >
+                  <Shield className="w-4 h-4 mr-2 group-hover:animate-pulse" />
                   {isSubmittingPassword || isAuthLoading ? t('signingIn', { ns: 'auth' }) : t('changePassword')}
                 </Button>
-                <p className="text-xs text-muted-foreground">
-                  {t('passwordRules')}
-                </p>
               </CardFooter>
             </form>
           </Card>
         </TabsContent>
 
-        <TabsContent value="data" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t('dataManagement')}</CardTitle>
-              <CardDescription>
-                {t('exportImportDesc')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex gap-4">
-              <Button variant="outline" onClick={handleExportData}>
-                <Download className="mr-2 h-4 w-4" />
-                {t('exportData')}
-              </Button>
-              <Button variant="outline" onClick={() => setIsImportModalOpen(true)}>
-                <Upload className="mr-2 h-4 w-4" />
-                {t('importData')}
-              </Button>
-            </CardContent>
-          </Card>
+        <TabsContent value="data" className="space-y-6 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-destructive/5 pointer-events-none rounded-xl" />
+          
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card className="border-border/50 bg-background/60 backdrop-blur-xl shadow-lg relative overflow-hidden group transition-all duration-500 hover:shadow-primary/5 hover:border-primary/20 md:col-span-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <CardHeader className="space-y-1 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-primary/10 ring-1 ring-primary/20">
+                    <LayoutList className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="tracking-tight text-xl">Subscription Workflow</CardTitle>
+                    <CardDescription className="text-muted-foreground mt-1.5">
+                      Automatically set up default region-localized subscriptions.
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="relative z-10 pt-2 pb-6">
+                <Button 
+                  onClick={handleSetupDefaultSubscriptions} 
+                  className="bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 group/btn active:scale-95 w-full sm:w-auto"
+                >
+                  <LayoutList className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />
+                  Setup Default Subscriptions
+                </Button>
+              </CardContent>
+            </Card>
 
-          <Card className="mt-4 border-primary/20">
-            <CardHeader>
-              <CardTitle>Subscription Workflow</CardTitle>
-              <CardDescription>
-                Automatically set up default region-localized subscriptions.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={handleSetupDefaultSubscriptions} className="bg-primary text-primary-foreground">
-                Setup Default Subscriptions
-              </Button>
-            </CardContent>
-          </Card>
+            <Card className="border-border/50 bg-background/60 backdrop-blur-xl shadow-lg relative overflow-hidden group transition-all duration-500 hover:shadow-primary/5 hover:border-primary/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <CardHeader className="space-y-1 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-primary/10 ring-1 ring-primary/20">
+                    <Database className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="tracking-tight text-xl">{t('dataManagement')}</CardTitle>
+                    <CardDescription className="text-muted-foreground mt-1.5">
+                      {t('exportImportDesc')}
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="flex flex-col sm:flex-row gap-3 relative z-10 pt-2 pb-6">
+                <Button 
+                  variant="outline" 
+                  onClick={handleExportData}
+                  className="w-full sm:w-auto bg-background/50 border-white/10 hover:bg-primary/10 hover:text-primary transition-all duration-300"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  {t('exportData')}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setIsImportModalOpen(true)}
+                  className="w-full sm:w-auto bg-background/50 border-white/10 hover:bg-primary/10 hover:text-primary transition-all duration-300"
+                >
+                  <Upload className="mr-2 h-4 w-4" />
+                  {t('importData')}
+                </Button>
+              </CardContent>
+            </Card>
 
-          <Card className="mt-4 border-destructive">
-            <CardHeader>
-              <CardTitle>{t('resetData')}</CardTitle>
-              <CardDescription>
-                {t('resetDataDesc')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="destructive" onClick={() => setIsResetModalOpen(true)}>
-                {t('resetAllData')}
-              </Button>
-            </CardContent>
-          </Card>
+            <Card className="border-destructive/20 bg-background/60 backdrop-blur-xl shadow-lg relative overflow-hidden group transition-all duration-500 hover:shadow-destructive/5 hover:border-destructive/40">
+              <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <CardHeader className="space-y-1 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-destructive/10 ring-1 ring-destructive/20">
+                    <Trash2 className="w-5 h-5 text-destructive" />
+                  </div>
+                  <div>
+                    <CardTitle className="tracking-tight text-xl text-destructive">{t('resetData')}</CardTitle>
+                    <CardDescription className="text-muted-foreground mt-1.5">
+                      {t('resetDataDesc')}
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="relative z-10 pt-2 pb-6">
+                <Button 
+                  variant="destructive" 
+                  onClick={() => setIsResetModalOpen(true)}
+                  className="w-full sm:w-auto shadow-lg shadow-destructive/20 transition-all hover:shadow-destructive/40 group/btn active:scale-95"
+                >
+                  <Trash2 className="w-4 h-4 mr-2 group-hover/btn:animate-bounce" />
+                  {t('resetAllData')}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
       </Tabs>
