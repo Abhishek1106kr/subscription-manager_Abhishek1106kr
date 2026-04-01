@@ -11,7 +11,7 @@ const Card = React.forwardRef<
     data-card
     className={cn(
       "text-card-foreground",
-      "bg-[rgba(20,20,30,0.88)] backdrop-blur-[12px] rounded-[16px] border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]",
+      "dark:bg-[rgba(20,20,30,0.88)] bg-[rgba(255,255,255,0.7)] backdrop-blur-[12px] rounded-[16px] dark:border-white/10 border-black/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]",
       className
     )}
     {...props}
