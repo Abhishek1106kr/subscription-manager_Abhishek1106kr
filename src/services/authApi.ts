@@ -3,6 +3,8 @@ import { apiClient } from '@/utils/api-client';
 export interface AuthUser {
   username: string;
   role?: string;
+  name?: string;
+  email?: string;
 }
 
 export const authApi = {
@@ -11,6 +13,9 @@ export const authApi = {
   },
   async login(username: string, password: string): Promise<{ message: string }> {
     return apiClient.post('/auth/login', { username, password });
+  },
+  async register(payload: { name: string; email: string; password: string }): Promise<{ message: string, user: AuthUser }> {
+    return apiClient.post('/auth/register', payload);
   },
   async logout(): Promise<{ message: string }> {
     return apiClient.post('/auth/logout', {});

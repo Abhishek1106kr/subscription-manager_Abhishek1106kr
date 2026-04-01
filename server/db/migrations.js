@@ -669,11 +669,11 @@ class DatabaseMigrations {
     try {
       this.db.exec(`ALTER TABLE users ADD COLUMN name TEXT;`);
       console.log('✅ Added name');
-    } catch(e) {}
+    } catch (e) { }
     try {
       this.db.exec(`ALTER TABLE users ADD COLUMN email TEXT;`);
       console.log('✅ Added email');
-    } catch(e) {}
+    } catch (e) { }
   }
 
   // Helper method to parse SQL statements properly

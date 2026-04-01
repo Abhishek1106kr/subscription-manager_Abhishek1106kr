@@ -83,6 +83,13 @@ app.get('/api/health', requireLogin, (req, res) => {
 const apiRouter = express.Router();
 const protectedApiRouter = express.Router();
 
+// Proxy /api/chat to the Python Bot running on localhost:5001
+const { createProxyMiddleware } = require('http-proxy-middleware');
+app.use('/api/chat', createProxyMiddleware({ 
+  target: 'http://localhost:5001', 
+  changeOrigin: true 
+}));
+
 // Auth routes (no login required)
 app.use('/api/auth', createAuthRoutes(db));
 
