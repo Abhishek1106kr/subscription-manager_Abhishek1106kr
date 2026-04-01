@@ -4,11 +4,13 @@ const { SUPPORTED_CURRENCY_CODES, getBaseCurrency } = require('../config/currenc
 
 /* * 
 * Exchange rate API service 
-* Use Tianxing Data API to obtain real-time exchange rates */
+* Uses a free public API (exchangerate-api) requiring NO key instead of Tianxing Data API */
 class ExchangeRateApiService {
     constructor(apiKey) {
-        this.apiKey = apiKey;
-        this.baseUrl = 'https://apis.tianapi.com/fxrate/index';
+        // We ignore the passed in apiKey because we migrated to a free provider
+        this.apiKey = apiKey || "bypassed";
+        // The free endpoint we are using
+        this.baseUrl = 'https://api.exchangerate-api.com/v4/latest/';
         this.supportedCurrencies = SUPPORTED_CURRENCY_CODES;
     }
 
@@ -19,39 +21,23 @@ class ExchangeRateApiService {
 * @param {number} amount - amount, default is 1 
 * @returns {Promise<number>} exchange rate value */
     async getExchangeRate(fromCurrency, toCurrency, amount = 1) {
-        if (!this.apiKey) {
-            throw new Error('TIANAPI_KEY not configured');
-        }
-
         if (fromCurrency === toCurrency) {
             return 1.0;
         }
 
         try {
-            const response = await axios.get(this.baseUrl, {
-                params: {
-                    key: this.apiKey,
-                    fromcoin: fromCurrency,
-                    tocoin: toCurrency,
-                    money: amount
-                },
+            const response = await axios.get(`${this.baseUrl}${fromCurrency}`, {
                 timeout: 10000 // 10 seconds timeout
             });
 
-            if (response.data.code === 200) {
-                const rate = parseFloat(response.data.result.money) / amount;
-                return rate;
+            if (response.data && response.data.rates && response.data.rates[toCurrency]) {
+                const rate = response.data.rates[toCurrency];
+                return rate * amount;
             } else {
-                throw new Error(`API Error: ${response.data.msg} (Code: ${response.data.code})`);
+                throw new Error(`Currency ${toCurrency} not found in response`);
             }
         } catch (error) {
-            if (error.response) {
-                throw new Error(`API Request Failed: ${error.response.status} - ${error.response.data?.msg || error.message}`);
-            } else if (error.request) {
-                throw new Error('Network Error: Unable to reach exchange rate API');
-            } else {
-                throw new Error(`Exchange Rate Service Error: ${error.message}`);
-            }
+            throw new Error(`Failed to fetch rate: ${error.message}`);
         }
     }
 
@@ -59,47 +45,51 @@ class ExchangeRateApiService {
 * Get exchange rates in batches (based on base currency) 
 * @returns {Promise<Array>} exchange rate array */
     async getAllExchangeRates() {
-        if (!this.apiKey) {
-            logger.warn('TIANAPI_KEY not configured, skipping exchange rate update');
-            return [];
-        }
-
         const rates = [];
         const baseCurrency = getBaseCurrency();
 
-        // Add base currency to own exchange rate
-        rates.push({
-            from_currency: baseCurrency,
-            to_currency: baseCurrency,
-            rate: 1.0
-        });
-
-        // Get the exchange rate of another currency relative to the base currency
-        for (const currency of this.supportedCurrencies) {
-            if (currency === baseCurrency) continue;
-
-            try {
-                const rate = await this.getExchangeRate(baseCurrency, currency);
-
-                rates.push({
-                    from_currency: baseCurrency,
-                    to_currency: currency,
-                    rate: rate
-                });
-
-                // Add delays to avoid API limitations
-                await this.delay(500); // 500ms delay
-            } catch (error) {
-                logger.error(`Failed to fetch rate for ${baseCurrency} -> ${currency}:`, error.message);
-                // Continue processing other currencies without interrupting the entire process
+        try {
+            // Fetch ALL rates in a single request! Much faster and no rate-limits.
+            const response = await axios.get(`${this.baseUrl}${baseCurrency}`, {
+                timeout: 10000
+            });
+            
+            if (!response.data || !response.data.rates) {
+                logger.warn('Invalid response from exchange rate API');
+                return rates;
             }
+
+            const apiRates = response.data.rates;
+
+            // Add base currency to own exchange rate
+            rates.push({
+                from_currency: baseCurrency,
+                to_currency: baseCurrency,
+                rate: 1.0
+            });
+
+            for (const currency of this.supportedCurrencies) {
+                if (currency === baseCurrency) continue;
+
+                if (apiRates[currency]) {
+                    rates.push({
+                        from_currency: baseCurrency,
+                        to_currency: currency,
+                        rate: apiRates[currency]
+                    });
+                } else {
+                    logger.error(`Currency ${currency} missing from API response`);
+                }
+            }
+        } catch (error) {
+            logger.error(`Failed to fetch rates:`, error.message);
         }
 
         return rates;
     }
 
     /* * 
-* Delay function 
+* Delay function  - not really needed anymore but kept for compatibility
 * @param {number} ms - delay in milliseconds */
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -109,17 +99,8 @@ class ExchangeRateApiService {
 * Verify that the API key is valid 
 * @returns {Promise<boolean>} Is it valid? */
     async validateApiKey() {
-        if (!this.apiKey) {
-            return false;
-        }
-
-        try {
-            await this.getExchangeRate(getBaseCurrency(), 'USD');
-            return true;
-        } catch (error) {
-            console.error('API Key validation failed:', error.message);
-            return false;
-        }
+        // Since we migrated to a free public API, it's ALWAYS valid automatically!
+        return true;
     }
 }
 

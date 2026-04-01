@@ -58,6 +58,13 @@ export function ExchangeRateManager() {
     }
   };
 
+  // Calculate relative rates based on the selected default currency
+  const baseRate = exchangeRates[currency] || 1;
+  const displayRates = Object.entries(exchangeRates).reduce((acc, [curr, rate]) => {
+    acc[curr] = rate / baseRate;
+    return acc;
+  }, {} as Record<string, number>);
+
   return (
     <div className="space-y-4">
       {/* Top row: currency settings and status cards */}
@@ -127,7 +134,7 @@ export function ExchangeRateManager() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-sm font-medium">{t('apiProvider')}</p>
-                  <p className="text-sm text-muted-foreground">tianapi.com</p>
+                  <p className="text-sm text-muted-foreground">exchangerate-api.com</p>
                 </div>
 
                 <div className="space-y-1">
@@ -212,21 +219,21 @@ export function ExchangeRateManager() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Object.entries(exchangeRates).map(([currency, rate]) => (
+            {Object.entries(displayRates).map(([curr, rate]) => (
               <div
-                key={currency}
+                key={curr}
                 className="flex items-center justify-between p-3 border rounded-lg"
               >
                 <div className="space-y-1">
-                  <p className="font-medium">{currency}</p>
+                  <p className="font-medium">{curr}</p>
                   <p className="text-xs text-muted-foreground">
-                    {CURRENCY_NAMES[currency as keyof typeof CURRENCY_NAMES] || currency}
+                    {CURRENCY_NAMES[curr as keyof typeof CURRENCY_NAMES] || curr}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {formatCurrencyAmount(rate, currency, false)}
+                    {formatCurrencyAmount(rate, curr, false)}
                   </p>
                 </div>
-                {isBaseCurrency(currency) && (
+                {currency === curr && (
                   <CheckCircle className="h-4 w-4 text-green-500" />
                 )}
               </div>
