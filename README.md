@@ -1,94 +1,89 @@
-#  SubManager — Smart Subscription Management System
+# Subscription Management System
 
-**SubManager** is a modern full-stack web application that helps users track, manage, and analyze their subscription expenses efficiently.  
-It provides real-time insights, renewal reminders, and notification tracking through Email and Telegram integrations.
+## 1. Project Description
+The **Subscription Management System** is a comprehensive full-stack web application designed to help users track, analyze, and manage their recurring expenses and subscriptions. In an increasingly subscription-based digital economy, users often lose track of their active services, leading to unwanted charges and poor financial management. 
 
-Built with a clean futuristic UI and a robust backend, SubManager simplifies subscription management for individuals and businesses.
+This platform solves that problem by providing a centralized dashboard where users can aggregate all their subscriptions. Furthermore, it features robust multi-currency support backed by real-time exchange rate integrations, ensuring users can accurately track their international spending precisely in their preferred local currency.
 
----
+## 2. Features
+- **Subscription Tracking**: Intuitively add, edit, and organize active subscriptions alongside their continuous billing cycles.
+- **Currency Conversion**: Seamlessly track expenses across different global currencies (e.g., USD, EUR, CNY, GBP).
+- **Exchange Rate API Integration**: Automatically fetches real-time exchange rates (via open-source APIs like exchangerate-api.com) to provide up-to-date cost estimations without requiring manual input.
+- **Dashboard Analytics**: Visualize monthly and yearly spending trends, categorized cost breakdowns, and upcoming renewal timelines through interactive charts.
+- **Notifications**: Automated alerts and reminders for upcoming renewals to prevent accidental or unwanted charges.
+- **Data Persistence**: Securely stores user preferences, comprehensive subscription data, and localized exchange rate histories in a robust database.
 
-## ✨ Features
+## 3. Tech Stack
+This project leverages a modern, decoupled full-stack architecture:
+- **Frontend**: React (orchestrated with Vite, TypeScript, and highly customized modern CSS/Tailwind for a premium, glassmorphic UI)
+- **Backend**: Node.js / Express.js
+- **Database**: SQLite (lightweight, zero-configuration SQL database engine for robust local data handling)
+- **Architecture**: REST API design principles
 
-- 📊 Interactive Dashboard
-  - Monthly & yearly spending overview
-  - Active subscriptions tracking
-  - Upcoming renewal detection
+## 4. Installation Steps
 
-- 💳 Subscription Management
-  - Add, edit, and delete subscriptions
-  - Track billing cycles
-  - Monitor payment methods
-  - Categorize services
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+- Python 3.x (optional, for AI assistant features)
 
-- 📈 Expense Reports
-  - Monthly, quarterly, yearly summaries
-  - Spending trend visualization
-  - Category-based analytics
+### Setup Instructions
 
-- 🔔 Smart Notifications
-  - Email notifications
-  - Telegram bot integration
-  - Renewal alerts
-  - Notification history tracking
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/agam263/subscription-manager.git
+   cd subscription-manager
+   ```
 
-- 🎨 Modern UI/UX
-  - Dark futuristic theme
-  - Smooth animations
-  - Responsive layout
-  - Glassmorphism design
+2. **Install dependencies**
+   First, install the frontend dependencies in the root directory:
+   ```bash
+   npm install
+   ```
+   Next, install the backend dependencies:
+   ```bash
+   cd server
+   npm install
+   cd ..
+   ```
 
-- 🔒 Secure Authentication
-  - Login system
-  - Protected dashboard access
+3. **Run the Backend**
+   Open a terminal window and start the Express server:
+   ```bash
+   cd server
+   npm start
+   ```
+   *The backend will typically run on `http://localhost:3001`.*
 
----
+4. **Run the Frontend**
+   Open a second terminal window in the project root and start the React Vite server:
+   ```bash
+   npm run dev
+   ```
+   *The frontend will compile and typically run on `http://localhost:3000` or `http://localhost:5173`. Access this URL in your browser to view the application.*
 
-## 🖼️ Screenshots
+## 5. Folder Structure
+```text
+subscription-manager/
+├── src/                    # Frontend React application
+│   ├── components/         # Reusable UI components and system layout
+│   ├── pages/              # Primary application views (Dashboard, Settings, etc.)
+│   ├── store/              # Client-side state management (Zustand)
+│   ├── utils/              # Helper functions, formatters, and API clients
+│   └── App.tsx             # Main React application routing and entry point
+├── server/                 # Backend Node.js/Express application
+│   ├── controllers/        # Request handling logic mapping
+│   ├── routes/             # REST API endpoint routing definitions
+│   ├── services/           # Core business logic (exchange rate fetching, schedulers)
+│   └── server.js           # Main Express server configuration and entry point
+├── docs/                   # Documentation and architecture references
+├── public/                 # Static assets (images, icons)
+└── package.json            # Project dependencies and scripts
+```
 
-### Landing Page
-
-![Landing Page]<img width="1676" height="926" alt="Screenshot 2026-03-31 at 11 17 41 AM" src="https://github.com/user-attachments/assets/b6e82c5e-8578-4635-93d7-f4543863eea1" />
-
-
-### Login Page
-
-![Login]![Dashboard] <img width="1678" height="928" alt="Screenshot 2026-03-31 at 11 18 02 AM" src="https://github.com/user-attachments/assets/7594cd5f-da52-480c-8884-ac123c2a454a" />
-
-### Dashboard
-
-![Dashboard]<img width="1678" height="929" alt="Screenshot 2026-03-31 at 11 45 19 AM" src="https://github.com/user-attachments/assets/c1f036f7-14ff-4cbd-8d87-a695955305c6" />
-
-
-### Subscription Management
-
-![Subscriptions](./screenshots/subscriptions.png)
-
-### Add Subscription Modal
-
-![Add Subscription]<img width="1675" height="929" alt="Screenshot 2026-03-31 at 12 01 51 PM" src="https://github.com/user-attachments/assets/6b3c9e99-58bc-476f-85eb-44b98cdac843" />
-
-
-### Reports & Analytics
-
-![Reports]<img width="1675" height="928" alt="Screenshot 2026-03-31 at 12 00 22 PM" src="https://github.com/user-attachments/assets/17f0a351-0eff-4986-9a1f-29a55d1766c7" />
-
-
-### Notification History
-
-![Notifications]<img width="1680" height="927" alt="Screenshot 2026-03-31 at 12 00 31 PM" src="https://github.com/user-attachments/assets/9aa0eb52-f780-420a-a63d-c0de649076f0" />
-
- <img width="1676" height="929" alt="Screenshot 2026-03-31 at 12 00 41 PM" src="https://github.com/user-attachments/assets/43fe9df8-5cb4-43ce-b8bd-b0a8128b538f" />
-
- <img width="1675" height="929" alt="Screenshot 2026-03-31 at 12 00 59 PM" src="https://github.com/user-attachments/assets/6f2200c9-e8ac-4ad6-b142-4c6a4e854312" />
-
- <img width="1680" height="933" alt="Screenshot 2026-03-31 at 12 01 07 PM" src="https://github.com/user-attachments/assets/befd730e-3384-4a36-9e61-d3d611b860fe" />
-
- <img width="1675" height="924" alt="Screenshot 2026-03-31 at 12 01 18 PM" src="https://github.com/user-attachments/assets/e5e9fb05-c469-4924-bb41-a0ca50349a25" />
-
- <img width="1678" height="916" alt="Screenshot 2026-03-31 at 12 01 32 PM" src="https://github.com/user-attachments/assets/d353650f-e566-4553-96e0-d4281dfc8e1f" />
-
-
-
-
-
-
+## 6. Future Improvements
+- **Bank API Synchronization**: Direct integration with financial institutions via Plaid or similar services to auto-sync bank transactions.
+- **Automated Email Receipt Parsing**: Implementation of email scanning to automatically discover, categorize, and add new subscriptions from digital receipts.
+- **Machine Learning Categorization**: AI-driven predictive insights on subscription usage, highlighting potential waste and unused services.
+- **Multi-tenant Authentication**: Expanding the system for multi-user enterprise or household accounts with fine-grained role-based access control.
+- **Advanced Exporting**: Capability to export financial data to CSV, PDF, and popular accounting software formats (QuickBooks, Xero).
