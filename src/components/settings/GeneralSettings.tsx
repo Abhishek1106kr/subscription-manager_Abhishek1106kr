@@ -103,25 +103,25 @@ export function GeneralSettings() {
     >
       {/* Appearance Card */}
       <motion.div variants={itemVariants}>
-        <Card className="rounded-[16px] border-white/10 bg-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
-          <CardHeader className="p-[24px] pb-4 border-b border-white/5">
+        <Card className="rounded-[16px] border-foreground/10 bg-foreground/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
+          <CardHeader className="p-[24px] pb-4 border-b border-foreground/5">
             <CardTitle className="text-xl flex items-center gap-2">
               <Palette className="h-5 w-5 text-purple-400" />
               Appearance
             </CardTitle>
-            <CardDescription className="text-white/50">
+            <CardDescription className="text-foreground/50">
               Customize how the application looks and feels.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-[24px] space-y-8">
             {/* Theme Mode Segmented Control */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-white/80">Theme Mode</Label>
-              <div className="flex items-center p-1 bg-white/5 border border-white/10 rounded-lg max-w-md">
+              <Label className="text-sm font-medium text-foreground/80">Theme Mode</Label>
+              <div className="flex items-center p-1 bg-foreground/5 border border-foreground/10 rounded-lg max-w-md">
                 <button
                   onClick={() => handleThemeChange('light')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
-                    theme === 'light' ? 'bg-white/10 text-white shadow-sm' : 'text-white/50 hover:text-white hover:bg-white/5'
+                    theme === 'light' ? 'bg-white/10 text-foreground shadow-sm' : 'text-foreground/50 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <Sun className="h-4 w-4" /> Light
@@ -129,7 +129,7 @@ export function GeneralSettings() {
                 <button
                   onClick={() => handleThemeChange('dark')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
-                    theme === 'dark' ? 'bg-white/10 text-white shadow-sm' : 'text-white/50 hover:text-white hover:bg-white/5'
+                    theme === 'dark' ? 'bg-white/10 text-foreground shadow-sm' : 'text-foreground/50 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <Moon className="h-4 w-4" /> Dark
@@ -137,7 +137,7 @@ export function GeneralSettings() {
                 <button
                   onClick={() => handleThemeChange('system')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-all ${
-                    theme === 'system' ? 'bg-white/10 text-white shadow-sm' : 'text-white/50 hover:text-white hover:bg-white/5'
+                    theme === 'system' ? 'bg-white/10 text-foreground shadow-sm' : 'text-foreground/50 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <Monitor className="h-4 w-4" /> System
@@ -147,7 +147,7 @@ export function GeneralSettings() {
 
             {/* Accent Color */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-white/80">Accent Color</Label>
+              <Label className="text-sm font-medium text-foreground/80">Accent Color</Label>
               <div className="flex gap-4">
                 {colors.map((c) => (
                   <button
@@ -163,15 +163,15 @@ export function GeneralSettings() {
 
             {/* UI Density */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-white/80 flex items-center gap-2">
-                <LayoutTemplate className="h-4 w-4 text-white/50" />
+              <Label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
+                <LayoutTemplate className="h-4 w-4 text-foreground/50" />
                 UI Density
               </Label>
               <Select value={density} onValueChange={setDensity}>
-                <SelectTrigger className="max-w-md bg-white/5 border-white/10 text-white">
+                <SelectTrigger className="max-w-md bg-foreground/5 border-foreground/10 text-foreground">
                   <SelectValue placeholder="Select density" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0f0f1a] border-white/10 text-white">
+                <SelectContent className="bg-[#0f0f1a] border-foreground/10 text-foreground">
                   <SelectItem value="comfortable">Comfortable</SelectItem>
                   <SelectItem value="compact">Compact</SelectItem>
                 </SelectContent>
@@ -183,13 +183,13 @@ export function GeneralSettings() {
 
       {/* Preferences Card */}
       <motion.div variants={itemVariants}>
-        <Card className="rounded-[16px] border-white/10 bg-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
-          <CardHeader className="p-[24px] pb-4 border-b border-white/5">
+        <Card className="rounded-[16px] border-foreground/10 bg-foreground/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
+          <CardHeader className="p-[24px] pb-4 border-b border-foreground/5">
             <CardTitle className="text-xl flex items-center gap-2">
               <Settings className="h-5 w-5 text-blue-400" />
               Preferences
             </CardTitle>
-            <CardDescription className="text-white/50">
+            <CardDescription className="text-foreground/50">
               Set your personal preferences.
             </CardDescription>
           </CardHeader>
@@ -197,15 +197,15 @@ export function GeneralSettings() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl">
               {/* Language */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-white/80 flex items-center gap-2">
-                  <Globe className="h-4 w-4 text-white/50" />
+                <Label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
+                  <Globe className="h-4 w-4 text-foreground/50" />
                   Language
                 </Label>
                 <Select value={language} onValueChange={setLanguage}>
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                  <SelectTrigger className="bg-white/5 border-foreground/10 text-foreground">
                     <SelectValue placeholder="Select language" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0f0f1a] border-white/10 text-white">
+                  <SelectContent className="bg-[#0f0f1a] border-foreground/10 text-foreground">
                     <SelectItem value="en">English (US)</SelectItem>
                     <SelectItem value="zh">中文 (Simplified)</SelectItem>
                     <SelectItem value="es">Español</SelectItem>
@@ -215,15 +215,15 @@ export function GeneralSettings() {
 
               {/* Timezone */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-white/80 flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-white/50" />
+                <Label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-foreground/50" />
                   Timezone
                 </Label>
                 <Select value={timezone} onValueChange={setTimezone}>
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                  <SelectTrigger className="bg-white/5 border-foreground/10 text-foreground">
                     <SelectValue placeholder="Select timezone" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0f0f1a] border-white/10 text-white">
+                  <SelectContent className="bg-[#0f0f1a] border-foreground/10 text-foreground">
                     <SelectItem value="UTC">UTC (Universal Time)</SelectItem>
                     <SelectItem value="America/New_York">Eastern Time (US)</SelectItem>
                     <SelectItem value="America/Los_Angeles">Pacific Time (US)</SelectItem>
@@ -234,15 +234,15 @@ export function GeneralSettings() {
 
               {/* Start Week On */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-white/80 flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-white/50" />
+                <Label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-foreground/50" />
                   Start Week On
                 </Label>
                 <Select value={startWeek} onValueChange={setStartWeek}>
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                  <SelectTrigger className="bg-white/5 border-foreground/10 text-foreground">
                     <SelectValue placeholder="Select day" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0f0f1a] border-white/10 text-white">
+                  <SelectContent className="bg-[#0f0f1a] border-foreground/10 text-foreground">
                     <SelectItem value="sunday">Sunday</SelectItem>
                     <SelectItem value="monday">Monday</SelectItem>
                   </SelectContent>
@@ -255,13 +255,13 @@ export function GeneralSettings() {
 
       {/* Interface Behavior Card */}
       <motion.div variants={itemVariants}>
-        <Card className="rounded-[16px] border-white/10 bg-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
-          <CardHeader className="p-[24px] pb-4 border-b border-white/5">
+        <Card className="rounded-[16px] border-foreground/10 bg-foreground/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)] hover:-translate-y-1">
+          <CardHeader className="p-[24px] pb-4 border-b border-foreground/5">
             <CardTitle className="text-xl flex items-center gap-2">
               <Zap className="h-5 w-5 text-amber-400" />
               Interface Behavior
             </CardTitle>
-            <CardDescription className="text-white/50">
+            <CardDescription className="text-foreground/50">
               Control how the interface behaves.
             </CardDescription>
           </CardHeader>
@@ -269,8 +269,8 @@ export function GeneralSettings() {
             {/* Enable Animations */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-sm font-medium text-white/90">Enable Animations</Label>
-                <p className="text-xs text-white/50">Show smooth transitions and hover effects</p>
+                <Label className="text-sm font-medium text-foreground/90">Enable Animations</Label>
+                <p className="text-xs text-foreground/50">Show smooth transitions and hover effects</p>
               </div>
               <Switch 
                 checked={enableAnimations} 
@@ -282,8 +282,8 @@ export function GeneralSettings() {
             {/* Auto Save */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-sm font-medium text-white/90">Auto Save Settings</Label>
-                <p className="text-xs text-white/50">Save changes instantly without button click</p>
+                <Label className="text-sm font-medium text-foreground/90">Auto Save Settings</Label>
+                <p className="text-xs text-foreground/50">Save changes instantly without button click</p>
               </div>
               <Switch 
                 checked={autoSave} 
@@ -295,10 +295,10 @@ export function GeneralSettings() {
             {/* Compact Sidebar */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-sm font-medium text-white/90 flex items-center gap-2">
+                <Label className="text-sm font-medium text-foreground/90 flex items-center gap-2">
                   <Sidebar className="h-4 w-4" /> Compact Sidebar
                 </Label>
-                <p className="text-xs text-white/50">Use a minimalist sidebar with icons only</p>
+                <p className="text-xs text-foreground/50">Use a minimalist sidebar with icons only</p>
               </div>
               <Switch 
                 checked={compactSidebar} 
@@ -310,10 +310,10 @@ export function GeneralSettings() {
             {/* Reduce Motion */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-sm font-medium text-white/90 flex items-center gap-2">
+                <Label className="text-sm font-medium text-foreground/90 flex items-center gap-2">
                   <Activity className="h-4 w-4" /> Reduce Motion
                 </Label>
-                <p className="text-xs text-white/50">Disable all non-essential animations for accessibility</p>
+                <p className="text-xs text-foreground/50">Disable all non-essential animations for accessibility</p>
               </div>
               <Switch 
                 checked={reduceMotion} 
@@ -333,11 +333,11 @@ export function GeneralSettings() {
         <Button 
           onClick={handleSave} 
           disabled={isSaving}
-          className="h-12 px-8 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_16px_48px_rgba(168,85,247,0.4)]"
+          className="h-12 px-8 rounded-full bg-foreground/10 hover:bg-white/20 text-foreground border border-foreground/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_16px_48px_rgba(168,85,247,0.4)]"
         >
           {isSaving ? (
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 rounded-full border-2 border-white/50 border-t-white animate-spin" />
+              <div className="h-4 w-4 rounded-full border-2 border-foreground/50 border-t-white animate-spin" />
               Saving...
             </div>
           ) : (

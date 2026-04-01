@@ -5,6 +5,7 @@ import {
   RefreshCw
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
 import { MagneticButton } from "@/components/ui/magnetic-button"
@@ -39,8 +40,8 @@ function HomePage() {
   const { t } = useTranslation(['dashboard', 'common'])
   const [editingSubscription, setEditingSubscription] = useState<Subscription | null>(null)
   const [showImportModal, setShowImportModal] = useState(false)
-  // Get the default view from settings
-  const { currency: userCurrency, fetchSettings } = useSettingsStore()
+  // Get the default view from settings and track settings load state
+  const { currency: userCurrency, fetchSettings, isLoading: isSettingsLoading } = useSettingsStore()
   
   const {
     subscriptions,
@@ -178,12 +179,33 @@ function HomePage() {
   const recentlyPaidSubscriptions = getRecentlyPaid(7)
   const spendingByCategory = getSpendingByCategory()
 
-  if (isLoading || isLoadingSpending) {
+  const isDashboardLoading = isLoading || isLoadingSpending || isSettingsLoading
+
+  if (isDashboardLoading) {
     return (
-      <div className="flex items-center justify-center h-[calc(100vh-16rem)]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-lg font-medium">{t('common:loading')} {t('common:subscriptions')}...</p>
+      <div className="space-y-6 animate-in fade-in duration-500">
+        {/* Banner Skeleton with Loading Message */}
+        <div className="relative w-full h-[260px] flex items-center justify-center overflow-hidden rounded-[16px] mb-8 bg-black">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm" />
+          <div className="z-10 text-center flex flex-col items-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-xl font-medium text-white/90">Loading data...</p>
+            <p className="text-sm text-white/50 mt-2">Fetching subscriptions and exchange rates</p>
+          </div>
+        </div>
+
+        {/* Stats Row Skeleton */}
+        <div className="grid gap-4 md:grid-cols-3">
+          <Skeleton className="h-[120px] w-full rounded-2xl bg-white/5 border border-white/10" />
+          <Skeleton className="h-[120px] w-full rounded-2xl bg-white/5 border border-white/10" />
+          <Skeleton className="h-[120px] w-full rounded-2xl bg-white/5 border border-white/10" />
+        </div>
+
+        {/* Content Row Skeleton */}
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+          <Skeleton className="h-[350px] w-full rounded-2xl bg-white/5 border border-white/10" />
+          <Skeleton className="h-[350px] w-full rounded-2xl bg-white/5 border border-white/10" />
+          <Skeleton className="h-[350px] w-full rounded-2xl bg-white/5 border border-white/10" />
         </div>
       </div>
     )

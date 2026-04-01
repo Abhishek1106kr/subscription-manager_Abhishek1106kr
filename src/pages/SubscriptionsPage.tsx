@@ -455,7 +455,7 @@ export function SubscriptionsPage() {
       {/* Navigation & Search - Floating Island */}
       <div className="sticky top-24 z-30 flex flex-col items-center justify-center mb-10 gap-6 w-full max-w-3xl mx-auto md:flex-col mt-4">
         {/* Search Island */}
-        <div className="w-full flex items-center p-2 rounded-[30px] bg-black/5 dark:bg-black/30 backdrop-blur-2xl border border-border/50 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+        <div className="w-full flex items-center p-2 rounded-full bg-white dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200 dark:border-white/10 shadow-lg ring-1 ring-black/5 dark:ring-white/5">
           <SearchInput
             placeholder={t('subscription:searchPlaceholder')}
             value={searchTerm}

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/popover"
 import { currencySymbols } from "@/utils/currency"
 import { useSettingsStore } from "@/store/settingsStore"
+import { SUPPORTED_CURRENCIES } from "@/config/currency"
 
 interface CurrencySelectorProps {
   value: string
@@ -40,8 +41,8 @@ export function CurrencySelector({
     fetchExchangeRates()
   }, [fetchExchangeRates])
 
-  // Generate currencies list based on available exchange rates
-  const currencies = Object.keys(exchangeRates).map((code) => ({
+  // Generate currencies list based on fully supported system configuration explicitly
+  const currencies = SUPPORTED_CURRENCIES.map((code) => ({
     value: code,
     label: code, // Only show currency code
     symbol: currencySymbols[code] || code

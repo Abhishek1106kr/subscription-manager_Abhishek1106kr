@@ -193,14 +193,20 @@ export function SubscriptionForm({
 
             {/* Subscription plan */}
             <FormField label={t('common:plan')} error={errors.plan} required>
-              <Input
-                id="plan"
-                name="plan"
+              <Select
                 value={form.plan}
-                onChange={handleChange}
-                placeholder={t('common:planPlaceholder')}
-                className={errors.plan ? "border-destructive" : ""}
-              />
+                onValueChange={(value) => handleSelectChange("plan", value)}
+              >
+                <SelectTrigger className={errors.plan ? "border-destructive" : ""}>
+                  <SelectValue placeholder={t('common:planPlaceholder') || "Select a predefined plan"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Basic">Basic</SelectItem>
+                  <SelectItem value="Student">Student</SelectItem>
+                  <SelectItem value="Premium">Premium</SelectItem>
+                  <SelectItem value="Family">Family</SelectItem>
+                </SelectContent>
+              </Select>
             </FormField>
 
             {/* Category */}

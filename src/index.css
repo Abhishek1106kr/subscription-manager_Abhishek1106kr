@@ -114,38 +114,55 @@
   body {
     font-family: 'Inter', sans-serif;
     color: hsl(var(--foreground));
+    background-color: #f8fafc;
+    background-image: 
+      radial-gradient(circle at top left, rgba(147, 51, 234, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: antigravity-mesh 25s ease-in-out infinite;
+  }
+
+  .dark body {
     background-color: #070314;
     background-image: 
       radial-gradient(circle at top left, rgba(88, 28, 135, 0.4) 0%, transparent 40%),
       radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9) 0%, transparent 60%),
       radial-gradient(circle at 80% 20%, rgba(76, 29, 149, 0.3) 0%, transparent 50%),
       radial-gradient(circle at 20% 80%, rgba(30, 4, 66, 0.6) 0%, transparent 50%);
-    background-attachment: fixed;
-    background-size: 200% 200%;
-    animation: antigravity-mesh 25s ease-in-out infinite;
   }
 }
 
 @layer components {
   .antigravity-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-radius: 20px;
     position: relative;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  }
+  .dark .antigravity-card {
+    background: rgba(255, 255, 255, 0.03);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
+
   .antigravity-card::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 20px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, transparent 60%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+  .dark .antigravity-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
   }
 }
 
