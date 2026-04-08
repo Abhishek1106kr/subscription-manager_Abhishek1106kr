@@ -15,7 +15,8 @@ Welcome to SubManager! The Landing Page features a stunning, animated interface 
 ### 2. Login & Registration Page
 Secure access to your dashboard. This page provides a seamless authentication flow for both new user registrations and returning users.
 
-![Login Page Screenshot](INSERT_LOGIN_PAGE_IMAGE_URL_HERE)
+![Uploading Screenshot 2026-04-08 at 8.27.59 PM.png…]()
+
 
 ### 3. Dashboard
 The core of the application. The Dashboard aggregates your spending data into beautiful, interactive charts. It highlights monthly/yearly spending trends, categorizes your expenses, and identifies your most recently paid or upcoming subscriptions.
