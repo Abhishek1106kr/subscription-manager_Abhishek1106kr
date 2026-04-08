@@ -21,7 +21,8 @@ Secure access to your dashboard. This page provides a seamless authentication fl
 ### 3. Dashboard
 The core of the application. The Dashboard aggregates your spending data into beautiful, interactive charts. It highlights monthly/yearly spending trends, categorizes your expenses, and identifies your most recently paid or upcoming subscriptions.
 
-![Dashboard Screenshot](INSERT_DASHBOARD_IMAGE_URL_HERE)
+![Uploading Screenshot 2026-04-08 at 8.27.59 PM.png…]()
+
 
 ### 4. Subscription Page
 A comprehensive catalog of all your active, trial, or cancelled subscriptions. You can filter, sort, and search your subscriptions, making it easy to manage your financial portfolio.
