@@ -33,7 +33,7 @@ A comprehensive catalog of all your active, trial, or cancelled subscriptions. Y
 ### 5. Add Subscription Page
 An intuitive interface to add new subscriptions. Track your plan details, billing cycle, renewal dates, associated categories, and payment methods.
 
-![Add Subscription Page Screenshot](INSERT_ADD_SUBSCRIPTION_PAGE_IMAGE_URL_HERE)
+![Uploading Screenshot 2026-04-08 at 8.29.26 PM.png…]()
 
 ---
 
